@@ -1,3 +1,11 @@
+import math as m
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+import matplotlib
+SPINE_COLOR = 'gray'
+
+# From https://nipunbatra.github.io/blog/2014/latexify.html
 def latexify(fig_width=None, fig_height=None, columns=1):
     """Set up matplotlib's RC params for LaTeX plotting.
     Call this before plotting a figure.
@@ -20,7 +28,7 @@ def latexify(fig_width=None, fig_height=None, columns=1):
         fig_width = 3.39 if columns==1 else 6.9 # width in inches
 
     if fig_height is None:
-        golden_mean = (sqrt(5)-1.0)/2.0    # Aesthetic ratio
+        golden_mean = (m.sqrt(5)-1.0)/2.0    # Aesthetic ratio
         fig_height = fig_width*golden_mean # height in inches
 
     MAX_HEIGHT_INCHES = 8.0
@@ -29,17 +37,22 @@ def latexify(fig_width=None, fig_height=None, columns=1):
               "so will reduce to" + MAX_HEIGHT_INCHES + "inches.")
         fig_height = MAX_HEIGHT_INCHES
 
+    # matplotlib.rcParams.update({"pgf.texsystem": "pdflatex"})
+
     params = {'backend': 'ps',
-              'text.latex.preamble': ['\\usepackage{gensymb}'],
+            "pgf.texsystem" : "pdflatex",
+              # 'text.latex.preamble': [r'\usepackage{gensymb}'],
               'axes.labelsize': 8, # fontsize for x and y labels (was 10)
               'axes.titlesize': 8,
-              'text.fontsize': 8, # was 10
+              'font.size': 8, # was 10
               'legend.fontsize': 8, # was 10
               'xtick.labelsize': 8,
               'ytick.labelsize': 8,
               'text.usetex': True,
               'figure.figsize': [fig_width,fig_height],
-              'font.family': 'serif'
+              'font.family': 'serif' ,
+              "text.latex.unicode": True,
+              "axes.unicode_minus": True
     }
 
     matplotlib.rcParams.update(params)
